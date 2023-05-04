@@ -2,7 +2,8 @@ const prisma = require("../../../../db");
 const AppError = require("../../../../erros/AppErro");
 
 class CreateLikeUseCase {
-  async execute({ userId, movieId, liked }) {
+  async execute(userId, movieId, liked) {
+    console.log("dentro do createLikeUseCase " + userId);
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
@@ -35,8 +36,8 @@ class CreateLikeUseCase {
             id: movie.id,
           },
         },
+        liked,
       },
-      liked,
     });
 
     return like;
