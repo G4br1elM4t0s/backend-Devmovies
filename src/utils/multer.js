@@ -1,20 +1,21 @@
 const multer = require("multer");
 const path = require("path");
-const crypto = require("crypto");
+const { randomBytes } = require("crypto");
 
-module.export = {
+module.exports = {
   dest: path.resolve(__dirname, "..", "..", "uploads"),
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
       cb(null, path.resolve(__dirname, "..", "..", "uploads"));
     },
     filename: (req, file, cb) => {
-      crypto.randomBytes(16, (err, hash) => {
-        if (err) cb(err);
+      randomBytes(6, (error, hash) => {
+        if (error) {
+          cb(error, file.filename);
+        }
+        file.filename = `${hash.toString("hex")}-${file.originalname}`;
 
-        const fileName = `${hash.toString("hex")}-${file.originalname}`;
-
-        cb(null, fileName);
+        cb(null, file.filename);
       });
     },
   }),

@@ -15,16 +15,18 @@ model User {
   name     String
   email    String @unique
   password String
+  role     String @default("user")
   likes    Like[]
 
   @@map("users")
 }
 
 model Movie {
-  id        String @id @default(uuid())
-  title     String
-  thumbnail String
-
+  id          String  @id @default(uuid())
+  title       String
+  thumbnail   String
+  nameImg     String
+  size        Int?
   description String?
   cast        String
   streamer    String
