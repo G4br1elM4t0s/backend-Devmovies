@@ -19,10 +19,6 @@ class CreateUserUseCase {
         email,
         password,
       },
-      select: {
-        email,
-        password,
-      },
     });
 
     return user;
