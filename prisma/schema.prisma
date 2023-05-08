@@ -29,19 +29,42 @@ model Movie {
   size        Int?
   description String?
   cast        String
-  streamer    String
-  likes       Like[]
+
+  likes Like[]
+
+  genres    Genre[] // Adiciona um campo de relacionamento com Genre
+  streamers Streamer[] // Adiciona um campo de relacionamento com Streamer
 
   @@map("movies")
 }
 
 model Like {
-  id      String  @id @default(uuid())
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId  String
-  movie   Movie   @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  movieId String
-  liked   Boolean
+  id         String   @id @default(uuid())
+  movieId    String
+  userId     String
+  category   String
+  created_At DateTime @default(now())
+  update_At  DateTime @updatedAt
 
-  @@map("likes")
+  movie Movie @relation(fields: [movieId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+}
+
+model Genre {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  movies Movie[] // Adiciona um campo de relacionamento com Movie
+
+  @@map("genres")
+}
+
+model Streamer {
+  id   Int    @id @default(autoincrement())
+  name String
+  link String
+
+  movies Movie[] // Adiciona um campo de relacionamento com Movie
+
+  @@map("streamers")
 }
