@@ -32,8 +32,9 @@ model Movie {
 
   likes Like[]
 
-  genres    Genre[] // Adiciona um campo de relacionamento com Genre
-  streamers Streamer[] // Adiciona um campo de relacionamento com Streamer
+  genres     Genre[] // Adiciona um campo de relacionamento com Genre
+  streamers  Streamer[] // Adiciona um campo de relacionamento com Streamer
+  Categories Category[]
 
   @@map("movies")
 }
@@ -67,4 +68,10 @@ model Streamer {
   movies Movie[] // Adiciona um campo de relacionamento com Movie
 
   @@map("streamers")
+}
+
+model Category {
+  id     String  @id @default(uuid())
+  name   String
+  movies Movie[]
 }

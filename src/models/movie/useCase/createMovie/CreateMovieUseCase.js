@@ -10,8 +10,11 @@ class CreateMovieUseCase {
     description,
     thumbnail,
     streamer,
+    category,
     cast
   ) {
+    const validCategories = ["assistido", "assistir", "gostei", "nao-gostei"];
+
     const user = await prisma.user.findUnique({
       where: {
         id: userId,
@@ -20,6 +23,10 @@ class CreateMovieUseCase {
 
     if (user.role !== "ADM") {
       throw new AppError("Without Permission");
+    }
+
+    if (!validCategories.includes(category)) {
+      throw new AppError("Invalid category");
     }
 
     const movie = await prisma.movie.create({
