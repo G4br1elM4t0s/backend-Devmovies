@@ -4,7 +4,8 @@ class CreateMovieController {
   async handle(req, res) {
     try {
       const { originalname: nameImg, filename: thumbnail, size } = req.file;
-      const { title, description, streamer, cast } = req.body;
+      const { name, description, streamersString, categoriesString, cast } =
+        req.body;
       const { userId } = req.params;
 
       const createMovieUseCase = new CreateMovieUseCase();
@@ -13,10 +14,11 @@ class CreateMovieController {
         userId,
         nameImg,
         size,
-        title,
+        name,
         description,
         thumbnail,
-        streamer,
+        streamersString,
+        categoriesString,
         cast
       );
       res.status(201).send(result);

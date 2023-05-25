@@ -9,6 +9,8 @@ class CreateRatingUseCase {
       throw new AppError("Invalid Category");
     }
 
+    console.log(movieName, type, userId);
+
     const movie = await prisma.movie.findUnique({
       where: {
         name: movieName,

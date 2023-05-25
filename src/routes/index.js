@@ -10,6 +10,7 @@ const AuthController = require("../controllers/user/AuthController");
 const CreateLikeController = require("../controllers/like/CreateLikeController");
 const ListLikeController = require("../controllers/like/ListLikeController");
 const CreateMovieController = require("../controllers/movie/CreateMovieController");
+const CreateRatingController = require("../controllers/rating/CreateRatingController");
 
 //controller
 const createUserController = new CreateUserController();
@@ -17,6 +18,7 @@ const authController = new AuthController();
 const createLikeController = new CreateLikeController();
 const listLikeController = new ListLikeController();
 const createMovieController = new CreateMovieController();
+const createRatingController = new CreateRatingController();
 
 router.get("/", (req, res) => {
   res.send({ ok: true });
@@ -33,5 +35,7 @@ router.post(
   multer(multerConfig).single("file"),
   createMovieController.handle
 );
+
+router.post("/movie/:movieName/ratings", createRatingController.handle);
 
 module.exports = router;
