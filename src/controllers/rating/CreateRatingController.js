@@ -6,6 +6,8 @@ class CreateRatingController {
       const { userId, type } = req.body;
       const { movieName } = req.params;
 
+      console.log(movieName);
+
       const createRatingUseCase = new CreateRatingUseCase();
 
       const result = await createRatingUseCase.execute(userId, movieName, type);

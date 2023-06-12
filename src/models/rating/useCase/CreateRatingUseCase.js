@@ -29,13 +29,34 @@ class CreateRatingUseCase {
     });
 
     if (existingRating) {
+      const ratingTypes = existingRating.type.split(",");
+
+      if (ratingTypes.includes(type)) {
+        return existingRating;
+      }
+
+      let updatedTypes = [...ratingTypes];
+
+      if (type === "gostei" && ratingTypes.includes("nao-gostei")) {
+        updatedTypes = updatedTypes.filter((t) => t !== "nao-gostei");
+      } else if (type === "nao-gostei" && ratingTypes.includes("gostei")) {
+        updatedTypes = updatedTypes.filter((t) => t !== "gostei");
+      } else if (type === "assistido" && ratingTypes.includes("assistir")) {
+        updatedTypes = updatedTypes.filter((t) => t !== "assistir");
+      } else if (type === "assistir" && ratingTypes.includes("assistido")) {
+        updatedTypes = updatedTypes.filter((t) => t !== "assistido");
+      }
+
+      updatedTypes.push(type);
+
       const updatedRating = await prisma.rating.update({
         where: { id: existingRating.id },
         data: {
-          type: existingRating.type + "," + type,
+          type: updatedTypes.join(","),
         },
       });
-      return res.json(updatedRating);
+
+      return updatedRating;
     } else {
       const newRating = await prisma.rating.create({
         data: {
